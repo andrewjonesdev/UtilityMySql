@@ -1,5 +1,7 @@
 package utilityForHire;
 
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -254,5 +256,24 @@ public abstract class UtilityMySql {
 		}
 		return output;
 	}
+	public static void deleteRowMySql(String forName, String driverConnection, String table, String primaryKeyName, int primaryKeyID){
+		try{
+			//Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(forName);
+            //con = DriverManager.getConnection("jdbc:mysql://localhost/Customer?user=root&password=password");
+			con = DriverManager.getConnection(driverConnection);
+			stmt = con.createStatement();
+			//String sql  = "select eduCourse from EducationR where eduID = ?");
+			String sql  = String.format("delete * from %s where %s = ?", table, primaryKeyName);
+			PreparedStatement p = con.prepareStatement(sql);
+			p.setInt(1, primaryKeyID);
+			rs = p.executeQuery();
+			rs.next();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+	}
+
 }
-	
